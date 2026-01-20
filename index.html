@@ -3,395 +3,491 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Visual Treasure | Scrapbook</title>
+    <title>Family Image Gallery</title>
     
     <!-- Icons -->
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet"/>
-    <!-- Fonts: 'Caveat' for handwriting style -->
+    <!-- Fonts: Cormorant for elegance, Montserrat for readability -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
 
     <style>
-        /* --- Base Setup --- */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        /* --- Gallery Theme Variables --- */
+        :root {
+            --bg-wall: #f4f2ef; /* Warm, off-white gallery wall */
+            --mat-board: #ffffff; /* Pure white mount */
+            --ink-primary: #1a1a1a;
+            --ink-secondary: #666666;
+            --accent-gold: #c5a059;
+            --shadow-soft: 0 10px 40px -10px rgba(0,0,0,0.08);
+            --shadow-hover: 0 20px 50px -10px rgba(0,0,0,0.15);
         }
 
-        :root {
-            --bg-color: #2b2e35;
-            --polaroid-bg: #fff;
-            --text-hand: 'Caveat', cursive;
-            --text-ui: 'Nunito', sans-serif;
-            --tape-color: rgba(255, 255, 255, 0.3);
-        }
+        /* --- Base Reset --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            background-color: var(--bg-color);
-            background-image: radial-gradient(#3a3e47 1px, transparent 1px);
-            background-size: 20px 20px;
-            font-family: var(--text-ui);
-            color: #333;
+            background-color: var(--bg-wall);
+            font-family: 'Montserrat', sans-serif;
+            color: var(--ink-primary);
             overflow-x: hidden;
-            padding-bottom: 5rem;
+            /* Subtle texture for the wall */
+            background-image: url("data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23000000' fill-opacity='0.02' fill-rule='evenodd'%3E%3Cpath d='M5 0h1L0 6V5zM6 5v1H5z'/%3E%3C/g%3E%3C/svg%3E");
         }
 
-        a { text-decoration: none; color: inherit; }
+        a { text-decoration: none; color: inherit; transition: color 0.3s; }
 
-        /* --- Header --- */
-        .header {
+        /* --- Navigation: Minimalist & Centered --- */
+        nav {
+            padding: 3rem 2rem;
             text-align: center;
-            padding: 3rem 1rem;
-            color: #fff;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
         }
 
-        .header h1 {
-            font-family: var(--text-hand);
-            font-size: 4rem;
+        .brand {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
             font-weight: 700;
-            text-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            margin-bottom: 0.5rem;
-            letter-spacing: 2px;
-        }
-
-        .header p {
-            font-size: 1.1rem;
-            opacity: 0.8;
-            font-weight: 600;
-        }
-
-        /* --- Navigation Pill --- */
-        .nav-pill {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(5px);
-            width: fit-content;
-            margin: 0 auto 3rem auto;
-            padding: 0.8rem 2rem;
-            border-radius: 50px;
-            border: 1px solid rgba(255,255,255,0.2);
-        }
-
-        .nav-link {
-            color: #fff;
-            font-weight: 700;
+            letter-spacing: 0.05em;
             text-transform: uppercase;
-            font-size: 0.85rem;
-            letter-spacing: 1px;
-            transition: color 0.3s;
+            margin-bottom: 1rem;
+            display: inline-block;
+            border-bottom: 2px solid var(--accent-gold);
+            padding-bottom: 5px;
         }
 
-        .nav-link:hover {
-            color: #ffdd59;
-        }
-
-        /* --- Scrapbook Grid --- */
-        .gallery-container {
+        .nav-menu {
             display: flex;
-            flex-wrap: wrap;
             justify-content: center;
-            gap: 3rem;
-            padding: 1rem 2rem;
-            max-width: 1400px;
+            gap: 2.5rem;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--ink-secondary);
+        }
+
+        .nav-menu a:hover { color: var(--ink-primary); }
+
+        /* --- Introduction --- */
+        .intro {
+            text-align: center;
+            padding: 4rem 1rem;
+            max-width: 600px;
             margin: 0 auto;
         }
 
-        /* The Polaroid Card */
-        .polaroid {
-            background: var(--polaroid-bg);
-            padding: 15px 15px 50px 15px; /* Big bottom padding for text */
-            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+        .intro h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            font-weight: 400;
+            font-style: italic;
+            color: var(--ink-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .intro p {
+            line-height: 1.8;
+            font-weight: 300;
+            color: var(--ink-secondary);
+        }
+
+        /* --- The Exhibition Grid --- */
+        .gallery-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem 4rem 2rem;
+            column-count: 3;
+            column-gap: 3rem;
+        }
+
+        /* The Art Piece (Card) */
+        .art-piece {
+            break-inside: avoid;
+            margin-bottom: 3rem;
             position: relative;
-            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-            width: 280px;
+            background: transparent;
+            group: 'art';
+        }
+
+        /* The Frame/Mat */
+        .frame {
+            background-color: var(--mat-board);
+            padding: 20px; /* The white "mat" border */
+            box-shadow: var(--shadow-soft);
+            transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.6s;
             cursor: pointer;
-            z-index: 1;
-            /* The "Tape" effect using pseudo-element */
-            border-radius: 2px;
+            position: relative;
+            overflow: hidden;
         }
 
-        .polaroid::before {
-            content: '';
-            position: absolute;
-            top: -15px;
-            left: 50%;
-            transform: translateX(-50%) rotate(-2deg);
-            width: 100px;
-            height: 35px;
-            background-color: var(--tape-color);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            backdrop-filter: blur(2px);
-            z-index: 2;
+        .art-piece:hover .frame {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
         }
 
-        /* Image styling */
-        .polaroid img {
+        .img-container {
+            position: relative;
+            overflow: hidden;
             width: 100%;
-            height: 220px;
-            object-fit: cover;
-            border: 1px solid #eee;
-            filter: sepia(20%) contrast(1.1); /* Slight vintage filter */
-            transition: filter 0.3s;
         }
 
-        /* Caption styling */
-        .caption {
-            position: absolute;
-            bottom: 0;
-            left: 0;
+        .frame img {
+            display: block;
             width: 100%;
-            height: 50px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            height: auto;
+            filter: grayscale(10%) contrast(95%);
+            transition: filter 0.5s, transform 0.8s;
+        }
+
+        .art-piece:hover .frame img {
+            filter: grayscale(0%) contrast(105%);
+            transform: scale(1.03);
+        }
+
+        /* Museum Label (Text below) */
+        .plaque {
+            padding-top: 1.2rem;
             text-align: center;
-            color: #444;
+            opacity: 0.8;
+            transition: opacity 0.3s;
         }
 
-        .caption-title {
-            font-family: var(--text-hand);
-            font-size: 1.6rem;
-            line-height: 1;
-            font-weight: 700;
+        .art-piece:hover .plaque {
+            opacity: 1;
         }
 
-        .caption-date {
-            font-family: var(--text-ui);
+        .title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--ink-primary);
+            line-height: 1.2;
+            margin-bottom: 0.3rem;
+        }
+
+        .meta {
             font-size: 0.7rem;
-            color: #888;
-            margin-top: 2px;
             text-transform: uppercase;
-            font-weight: 700;
+            letter-spacing: 1.5px;
+            color: var(--accent-gold);
+            font-weight: 500;
         }
 
-        /* --- The "Messy" Scatter Effect --- */
-        /* Rotate every card differently for chaos */
-        .polaroid:nth-child(odd) { transform: rotate(-3deg); }
-        .polaroid:nth-child(even) { transform: rotate(2deg); margin-top: 2rem; }
-        .polaroid:nth-child(3n) { transform: rotate(4deg); margin-top: 0; }
-        .polaroid:nth-child(4n) { transform: rotate(-1deg); }
-        .polaroid:nth-child(5n) { transform: rotate(-5deg); margin-top: 1.5rem; }
-
-        /* --- Hover Interaction (Pick up the photo) --- */
-        .polaroid:hover {
-            transform: scale(1.15) rotate(0deg) !important;
-            z-index: 100;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-            margin-top: 0 !important; /* Reset layout shift on hover */
-        }
-
-        .polaroid:hover img {
-            filter: sepia(0%) contrast(1); /* Remove vintage filter on hover */
+        .description {
+            font-size: 0.85rem;
+            color: var(--ink-secondary);
+            margin-top: 0.5rem;
+            font-weight: 300;
+            font-style: italic;
         }
 
         /* --- Footer --- */
-        .footer {
+        footer {
+            padding: 4rem;
             text-align: center;
-            margin-top: 4rem;
-            color: rgba(255,255,255,0.5);
-            font-size: 0.9rem;
+            border-top: 1px solid rgba(0,0,0,0.05);
+            font-family: 'Cormorant Garamond', serif;
+            color: var(--ink-secondary);
         }
+
+        footer i { font-size: 1.2rem; margin: 0 10px; color: var(--accent-gold); }
 
         /* --- Responsive --- */
-        @media (max-width: 768px) {
-            .header h1 { font-size: 3rem; }
-            .gallery-container { gap: 2rem; }
-            
-            /* Tame the chaos on mobile slightly, but keep the vibe */
-            .polaroid { width: 45%; min-width: 160px; padding: 10px 10px 40px 10px; }
-            .polaroid img { height: 160px; }
-            .caption-title { font-size: 1.3rem; }
-            
-            /* Less extreme margins on mobile to fit screen */
-            .polaroid:nth-child(even) { margin-top: 1rem; }
-            .polaroid:nth-child(5n) { margin-top: 0; }
+        @media (max-width: 1024px) {
+            .gallery-container { column-count: 2; column-gap: 2rem; }
         }
 
-        @media (max-width: 480px) {
-            .gallery-container { gap: 1.5rem; }
-            .polaroid { width: 100%; transform: rotate(0deg) !important; margin-top: 0 !important; }
-            .polaroid::before { width: 80px; }
-            /* On tiny screens, just stack them straight, interactions still work */
+        @media (max-width: 600px) {
+            .gallery-container { column-count: 1; }
+            .frame { padding: 15px; }
+            .brand { font-size: 1.8rem; }
         }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <h1>My Travel Scrapbook</h1>
-        <div class="nav-pill">
-            <a href="#" class="nav-link">Home</a>
-            <a href="#" class="nav-link">Albums</a>
-            <a href="#" class="nav-link">Upload</a>
+    <nav>
+        <div class="brand">Family Image Gallery</div>
+        <div class="nav-menu">
+            <a href="#">Exhibition</a>
+            <a href="#">Albums</a>
+            <a href="#">Timeline</a>
         </div>
-        <p>A collection of moments frozen in time</p>
-    </div>
+    </nav>
 
-    <div class="gallery-container">
+    <header class="intro">
+        <h2>"Our Cherished Moments"</h2>
+        <p>Welcome to our family's visual legacy. A curated collection of travel, celebrations, and everyday joy.</p>
+    </header>
+
+    <main class="gallery-container">
+
+        <!-- Piece 1 -->
+        <div class="art-piece">
+            <a href="https://saha-family.github.io/Darjelling-2017/" target="_blank">
+                <div class="frame">
+                    <div class="img-container">
+                        <img src="https://saha-family.github.io/Darjelling-2017/darjelling%20(133).jpg" alt="Darjeeling" onerror="this.src='https://images.unsplash.com/photo-1544634076-a90160ccdca7?w=600&q=80'">
+                    </div>
+                </div>
+                <div class="plaque">
+                    <div class="title">Mist Over Darjeeling</div>
+                    <div class="meta">Series 2017</div>
+                    <div class="description">Himalayan foothills</div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Piece 2 -->
+        <div class="art-piece">
+            <a href="https://saha-family.github.io/Laitlum/" target="_blank">
+                <div class="frame">
+                    <div class="img-container">
+                        <img src="https://saha-family.github.io/Laitlum/laitlong%20(61).jpg" alt="Laitlum" onerror="this.src='https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=600&q=80'">
+                    </div>
+                </div>
+                <div class="plaque">
+                    <div class="title">The Laitlum Canyons</div>
+                    <div class="meta">Meghalaya, 2023</div>
+                    <div class="description">Edge of the world</div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Piece 3 -->
+        <div class="art-piece">
+            <a href="https://saha-family.github.io/dawki/" target="_blank">
+                <div class="frame">
+                    <div class="img-container">
+                        <img src="https://saha-family.github.io/dawki/dawki%20(45).jpg" alt="Dawki" onerror="this.src='https://images.unsplash.com/photo-1596728325988-7557102d8f96?w=600&q=80'">
+                    </div>
+                </div>
+                <div class="plaque">
+                    <div class="title">Waters of Dawki</div>
+                    <div class="meta">River Study, 2023</div>
+                    <div class="description">Crystal clear reflection</div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Piece 4 -->
+        <div class="art-piece">
+            <a href="https://saha-family.github.io/Cherrapunji/" target="_blank">
+                <div class="frame">
+                    <div class="img-container">
+                        <img src="https://saha-family.github.io/Cherrapunji/cherrapunji%20(195).jpg" alt="Cherrapunjee" onerror="this.src='https://images.unsplash.com/photo-1626084792697-39b036c0508a?w=600&q=80'">
+                    </div>
+                </div>
+                <div class="plaque">
+                    <div class="title">Cherrapunjee Rain</div>
+                    <div class="meta">Meghalaya, 2023</div>
+                    <div class="description">The wettest place on earth</div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Piece 5 -->
+        <div class="art-piece">
+            <a href="https://saha-family.github.io/puja-2023/" target="_blank">
+                <div class="frame">
+                    <div class="img-container">
+                        <img src="https://saha-family.github.io/puja-2023/puja%20(64).jpg" alt="Durga Puja" onerror="this.src='https://images.unsplash.com/photo-1633615366477-88d447f52033?w=600&q=80'">
+                    </div>
+                </div>
+                <div class="plaque">
+                    <div class="title">Festival of Strength</div>
+                    <div class="meta">Durga Puja 2023</div>
+                    <div class="description">Cultural immersion</div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Piece 6 -->
+        <div class="art-piece">
+            <a href="https://saha-family.github.io/shillong-tour/" target="_blank">
+                <div class="frame">
+                    <div class="img-container">
+                        <img src="https://saha-family.github.io/shillong-tour/shillong1%20(41).jpg" alt="Shillong" onerror="this.src='https://images.unsplash.com/photo-1598418029054-03c032617637?w=600&q=80'">
+                    </div>
+                </div>
+                <div class="plaque">
+                    <div class="title">Shillong Cityscape</div>
+                    <div class="meta">Urban, 2023</div>
+                    <div class="description">Scotland of the East</div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Piece 7 -->
+        <div class="art-piece">
+            <a href="https://saha-family.github.io/DIGHA_2022/" target="_blank">
+                <div class="frame">
+                    <div class="img-container">
+                        <img src="https://saha-family.github.io/DIGHA_2022/pic%20%20(116).jpg" alt="Digha" onerror="this.src='https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=80'">
+                    </div>
+                </div>
+                <div class="plaque">
+                    <div class="title">Coastal Breeze</div>
+                    <div class="meta">Digha, 2022</div>
+                    <div class="description">Seaside memories</div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Piece 8 -->
+        <div class="art-piece">
+            <a href="https://saha-family.github.io/RIYA-WEDDING/" target="_blank">
+                <div class="frame">
+                    <div class="img-container">
+                        <img src="https://saha-family.github.io/RIYA-WEDDING/pic%20%20(113).jpg" alt="Wedding" onerror="this.src='https://images.unsplash.com/photo-1519741497674-611481863552?w=600&q=80'">
+                    </div>
+                </div>
+                <div class="plaque">
+                    <div class="title">The Wedding</div>
+                    <div class="meta">Ceremony, 2022</div>
+                    <div class="description">A union of souls</div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Piece 9 -->
+        <div class="art-piece">
+            <a href="https://saha-family.github.io/Jio-Phone_gallery/" target="_blank">
+                <div class="frame">
+                    <div class="img-container">
+                        <img src="https://saha-family.github.io/Jio-Phone_gallery/darjelling%20(82).jpg" alt="Jio Phone" onerror="this.src='https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=600&q=80'">
+                    </div>
+                </div>
+                <div class="plaque">
+                    <div class="title">Digital Origins</div>
+                    <div class="meta">Archive, 2019</div>
+                    <div class="description">Early mobile photography</div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Piece 10 -->
+        <div class="art-piece">
+            <a href="https://saha-family.github.io/Puja2K24/" target="_blank">
+                <div class="frame">
+                    <div class="img-container">
+                        <img src="https://saha-family.github.io/Puja2K24/pic%20%20%20(2).jpg" alt="Puja 24" onerror="this.src='https://images.unsplash.com/photo-1602914002622-c324422204c6?w=600&q=80'">
+                    </div>
+                </div>
+                <div class="plaque">
+                    <div class="title">Autumn Festival</div>
+                    <div class="meta">Puja, 2024</div>
+                    <div class="description">Vibrant colors of October</div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Piece 11 -->
+        <div class="art-piece">
+            <a href="https://saha-family.github.io/Maithon_2024/" target="_blank">
+                <div class="frame">
+                    <div class="img-container">
+                        <img src="https://saha-family.github.io/Maithon_2024/pic%20%20(27).jpg" alt="Maithon" onerror="this.src='https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=600&q=80'">
+                    </div>
+                </div>
+                <div class="plaque">
+                    <div class="title">Maithon Reservoir</div>
+                    <div class="meta">Landscape, 2024</div>
+                    <div class="description">Winter expedition</div>
+                </div>
+            </a>
+        </div>
+
+         <!-- Piece 12 -->
+        <div class="art-piece">
+            <a href="https://saha-family.github.io/Maha_kumbh/" target="_blank">
+                <div class="frame">
+                    <div class="img-container">
+                        <img src="https://saha-family.github.io/Maha_kumbh/pic%20%20(42).jpg" alt="Kumbh" onerror="this.src='https://images.unsplash.com/photo-1583094921606-c077d33b49cb?w=600&q=80'">
+                    </div>
+                </div>
+                <div class="plaque">
+                    <div class="title">Maha Kumbh</div>
+                    <div class="meta">Spirituality, 2025</div>
+                    <div class="description">The great gathering</div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Piece 13 -->
+        <div class="art-piece">
+            <a href="https://saha-family.github.io/Parasnath_Trek/" target="_blank">
+                <div class="frame">
+                    <div class="img-container">
+                        <img src="https://saha-family.github.io/Parasnath_Trek/pic%20%20%20(53).jpg" alt="Trek" onerror="this.src='https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600&q=80'">
+                    </div>
+                </div>
+                <div class="plaque">
+                    <div class="title">Parasnath Ascent</div>
+                    <div class="meta">Trek, 2025</div>
+                    <div class="description">Mountain pilgrimage</div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Piece 14 -->
+        <div class="art-piece">
+            <a href="https://saha-family.github.io/Puja2025_part1/" target="_blank">
+                <div class="frame">
+                    <div class="img-container">
+                        <img src="https://saha-family.github.io/Puja2025_part1/pic%20%20%20(263).jpg" alt="Puja 25" onerror="this.src='https://images.unsplash.com/photo-1569429590747-062e245a16dd?w=600&q=80'">
+                    </div>
+                </div>
+                <div class="plaque">
+                    <div class="title">Puja Chronicles I</div>
+                    <div class="meta">Sept 2025</div>
+                    <div class="description">Preparations and prayer</div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Piece 15 -->
+        <div class="art-piece">
+            <a href="https://saha-family.github.io/Ninital-Day-1/" target="_blank">
+                <div class="frame">
+                    <div class="img-container">
+                        <img src="https://saha-family.github.io/Ninital-Day-1/img%20(43).jpg" alt="Nainital" onerror="this.src='https://images.unsplash.com/photo-1506197603052-3cc9c3a201bd?w=600&q=80'">
+                    </div>
+                </div>
+                <div class="plaque">
+                    <div class="title">Nainital: Arrival</div>
+                    <div class="meta">Winter 2025</div>
+                    <div class="description">Lake district views</div>
+                </div>
+            </a>
+        </div>
         
-        <!-- Polaroid 1 -->
-        <a href="https://saha-family.github.io/Darjelling-2017/" class="polaroid" target="_blank">
-            <img src="https://saha-family.github.io/Darjelling-2017/darjelling%20(133).jpg" alt="Darjeeling" onerror="this.src='https://images.unsplash.com/photo-1544634076-a90160ccdca7?w=500&auto=format&fit=crop&q=60'"/>
-            <div class="caption">
-                <div class="caption-title">Darjeeling</div>
-                <div class="caption-date">2017</div>
-            </div>
-        </a>
+         <!-- Piece 16 -->
+        <div class="art-piece">
+            <a href="https://saha-family.github.io/Delhi-Tourism/" target="_blank">
+                <div class="frame">
+                    <div class="img-container">
+                        <img src="https://saha-family.github.io/Delhi-Tourism/img%20(121).jpg" alt="Delhi" onerror="this.src='https://images.unsplash.com/photo-1587474265402-2e0ef91212c3?w=600&q=80'">
+                    </div>
+                </div>
+                <div class="plaque">
+                    <div class="title">Delhi Heritage</div>
+                    <div class="meta">Capital, 2025</div>
+                    <div class="description">History in stone</div>
+                </div>
+            </a>
+        </div>
 
-        <!-- Polaroid 2 -->
-        <a href="https://saha-family.github.io/Laitlum/" class="polaroid" target="_blank">
-            <img src="https://saha-family.github.io/Laitlum/laitlong%20(61).jpg" alt="Laitlum" onerror="this.src='https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=500&auto=format&fit=crop&q=60'"/>
-            <div class="caption">
-                <div class="caption-title">Laitlum</div>
-                <div class="caption-date">Oct 2023</div>
-            </div>
-        </a>
+    </main>
 
-        <!-- Polaroid 3 -->
-        <a href="https://saha-family.github.io/Cherrapunji/" class="polaroid" target="_blank">
-            <img src="https://saha-family.github.io/Cherrapunji/cherrapunji%20(195).jpg" alt="Cherrapunjee" onerror="this.src='https://images.unsplash.com/photo-1626084792697-39b036c0508a?w=500&auto=format&fit=crop&q=60'"/>
-            <div class="caption">
-                <div class="caption-title">Cherrapunjee</div>
-                <div class="caption-date">Oct 2023</div>
-            </div>
-        </a>
-
-        <!-- Polaroid 4 -->
-        <a href="https://saha-family.github.io/dawki/" class="polaroid" target="_blank">
-            <img src="https://saha-family.github.io/dawki/dawki%20(45).jpg" alt="Dawki" onerror="this.src='https://images.unsplash.com/photo-1596728325988-7557102d8f96?w=500&auto=format&fit=crop&q=60'"/>
-            <div class="caption">
-                <div class="caption-title">Dawki River</div>
-                <div class="caption-date">Oct 2023</div>
-            </div>
-        </a>
-
-        <!-- Polaroid 5 -->
-        <a href="https://saha-family.github.io/shillong-tour/" class="polaroid" target="_blank">
-            <img src="https://saha-family.github.io/shillong-tour/shillong1%20(41).jpg" alt="Shillong" onerror="this.src='https://images.unsplash.com/photo-1598418029054-03c032617637?w=500&auto=format&fit=crop&q=60'"/>
-            <div class="caption">
-                <div class="caption-title">Shillong</div>
-                <div class="caption-date">City Tour</div>
-            </div>
-        </a>
-
-        <!-- Polaroid 6 -->
-        <a href="https://saha-family.github.io/puja-2023/" class="polaroid" target="_blank">
-            <img src="https://saha-family.github.io/puja-2023/puja%20(64).jpg" alt="Durga Puja" onerror="this.src='https://images.unsplash.com/photo-1633615366477-88d447f52033?w=500&auto=format&fit=crop&q=60'"/>
-            <div class="caption">
-                <div class="caption-title">Durga Puja</div>
-                <div class="caption-date">Festival '23</div>
-            </div>
-        </a>
-
-        <!-- Polaroid 7 -->
-        <a href="https://saha-family.github.io/Jio-Phone_gallery/" class="polaroid" target="_blank">
-            <img src="https://saha-family.github.io/Jio-Phone_gallery/darjelling%20(82).jpg" alt="Jio Phone" onerror="this.src='https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=500&auto=format&fit=crop&q=60'"/>
-            <div class="caption">
-                <div class="caption-title">Phone Gallery</div>
-                <div class="caption-date">2019</div>
-            </div>
-        </a>
-
-        <!-- Polaroid 8 -->
-        <a href="https://saha-family.github.io/DIGHA_2022/" class="polaroid" target="_blank">
-            <img src="https://saha-family.github.io/DIGHA_2022/pic%20%20(116).jpg" alt="Digha" onerror="this.src='https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=500&auto=format&fit=crop&q=60'"/>
-            <div class="caption">
-                <div class="caption-title">Digha Beach</div>
-                <div class="caption-date">Oct 2022</div>
-            </div>
-        </a>
-
-        <!-- Polaroid 9 -->
-        <a href="https://saha-family.github.io/RIYA-WEDDING/" class="polaroid" target="_blank">
-            <img src="https://saha-family.github.io/RIYA-WEDDING/pic%20%20(113).jpg" alt="Wedding" onerror="this.src='https://images.unsplash.com/photo-1519741497674-611481863552?w=500&auto=format&fit=crop&q=60'"/>
-            <div class="caption">
-                <div class="caption-title">Riya's Wedding</div>
-                <div class="caption-date">Feb 2022</div>
-            </div>
-        </a>
-
-        <!-- Polaroid 10 -->
-        <a href="https://saha-family.github.io/Puja2K24/" class="polaroid" target="_blank">
-            <img src="https://saha-family.github.io/Puja2K24/pic%20%20%20(2).jpg" alt="Puja 24" onerror="this.src='https://images.unsplash.com/photo-1602914002622-c324422204c6?w=500&auto=format&fit=crop&q=60'"/>
-            <div class="caption">
-                <div class="caption-title">Puja '24</div>
-                <div class="caption-date">Oct 2024</div>
-            </div>
-        </a>
-
-        <!-- Polaroid 11 -->
-        <a href="https://saha-family.github.io/Maithon_2024/" class="polaroid" target="_blank">
-            <img src="https://saha-family.github.io/Maithon_2024/pic%20%20(27).jpg" alt="Maithon" onerror="this.src='https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=500&auto=format&fit=crop&q=60'"/>
-            <div class="caption">
-                <div class="caption-title">Maithon Dam</div>
-                <div class="caption-date">Dec 2024</div>
-            </div>
-        </a>
-
-        <!-- Polaroid 12 -->
-        <a href="https://saha-family.github.io/Garden/" class="polaroid" target="_blank">
-            <img src="https://saha-family.github.io/Garden/pic%20%20(14).jpg" alt="Garden" onerror="this.src='https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=500&auto=format&fit=crop&q=60'"/>
-            <div class="caption">
-                <div class="caption-title">My Garden</div>
-                <div class="caption-date">Home</div>
-            </div>
-        </a>
-
-        <!-- Polaroid 13 -->
-        <a href="https://saha-family.github.io/Maha_kumbh/" class="polaroid" target="_blank">
-            <img src="https://saha-family.github.io/Maha_kumbh/pic%20%20(42).jpg" alt="Kumbh" onerror="this.src='https://images.unsplash.com/photo-1583094921606-c077d33b49cb?w=500&auto=format&fit=crop&q=60'"/>
-            <div class="caption">
-                <div class="caption-title">Maha Kumbh</div>
-                <div class="caption-date">2025</div>
-            </div>
-        </a>
-
-        <!-- Polaroid 14 -->
-        <a href="https://saha-family.github.io/Parasnath_Trek/" class="polaroid" target="_blank">
-            <img src="https://saha-family.github.io/Parasnath_Trek/pic%20%20%20(53).jpg" alt="Trek" onerror="this.src='https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=500&auto=format&fit=crop&q=60'"/>
-            <div class="caption">
-                <div class="caption-title">Parasnath</div>
-                <div class="caption-date">Trek 2025</div>
-            </div>
-        </a>
-
-        <!-- Polaroid 15 -->
-        <a href="https://saha-family.github.io/Puja2025_part1/" class="polaroid" target="_blank">
-            <img src="https://saha-family.github.io/Puja2025_part1/pic%20%20%20(263).jpg" alt="Puja 25" onerror="this.src='https://images.unsplash.com/photo-1569429590747-062e245a16dd?w=500&auto=format&fit=crop&q=60'"/>
-            <div class="caption">
-                <div class="caption-title">Puja '25 (I)</div>
-                <div class="caption-date">Sept</div>
-            </div>
-        </a>
-        
-        <!-- Polaroid 16 -->
-        <a href="https://saha-family.github.io/Ninital-Day-1/" class="polaroid" target="_blank">
-            <img src="https://saha-family.github.io/Ninital-Day-1/img%20(43).jpg" alt="Nainital" onerror="this.src='https://images.unsplash.com/photo-1506197603052-3cc9c3a201bd?w=500&auto=format&fit=crop&q=60'"/>
-            <div class="caption">
-                <div class="caption-title">Nainital Day 1</div>
-                <div class="caption-date">Dec 2025</div>
-            </div>
-        </a>
-
-        <!-- Polaroid 17 -->
-        <a href="https://saha-family.github.io/Delhi-Tourism/" class="polaroid" target="_blank">
-            <img src="https://saha-family.github.io/Delhi-Tourism/img%20(121).jpg" alt="Delhi" onerror="this.src='https://images.unsplash.com/photo-1587474265402-2e0ef91212c3?w=500&auto=format&fit=crop&q=60'"/>
-            <div class="caption">
-                <div class="caption-title">Delhi Tour</div>
-                <div class="caption-date">Capital</div>
-            </div>
-        </a>
-
-    </div>
-
-    <div class="footer">
-        &copy; 2024 Souradeep | Made with Memories
-    </div>
-
+    <footer>
+        <p>&copy; 2017-2026 Souradeep. Curated with Love.</p>
+        <div style="margin-top: 10px;">
+            <i class="ri-palette-line"></i>
+            <i class="ri-camera-lens-line"></i>
+            <i class="ri-brush-line"></i>
+        </div>
+    </footer>
 </body>
 </html>
