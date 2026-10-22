@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Family Image Gallery</title>
-    
+
     <!-- Icons -->
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet"/>
     <!-- Fonts: Cormorant for elegance, Montserrat for readability -->
@@ -15,8 +15,8 @@
     <style>
         /* --- Gallery Theme Variables --- */
         :root {
-            --bg-wall: #f4f2ef; /* Warm, off-white gallery wall */
-            --mat-board: #ffffff; /* Pure white mount */
+            --bg-wall: #f4f2ef;
+            --mat-board: #ffffff;
             --ink-primary: #1a1a1a;
             --ink-secondary: #666666;
             --accent-gold: #c5a059;
@@ -32,13 +32,74 @@
             font-family: 'Montserrat', sans-serif;
             color: var(--ink-primary);
             overflow-x: hidden;
-            /* Subtle texture for the wall */
             background-image: url("data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23000000' fill-opacity='0.02' fill-rule='evenodd'%3E%3Cpath d='M5 0h1L0 6V5zM6 5v1H5z'/%3E%3C/g%3E%3C/svg%3E");
         }
 
         a { text-decoration: none; color: inherit; transition: color 0.3s; }
 
-        /* --- Navigation: Minimalist & Centered --- */
+        /* --- Password Gate --- */
+        #lock-screen {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background-color: var(--bg-wall);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+        .lock-box {
+            background: var(--mat-board);
+            padding: 3rem 2.5rem;
+            max-width: 380px;
+            width: 100%;
+            text-align: center;
+            box-shadow: var(--shadow-soft);
+        }
+        .lock-box .brand { font-size: 1.6rem; margin-bottom: 1.2rem; }
+        .lock-box p {
+            font-weight: 300;
+            color: var(--ink-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+        .lock-box input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid rgba(0,0,0,0.15);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.95rem;
+            text-align: center;
+            outline: none;
+            margin-bottom: 1rem;
+        }
+        .lock-box input:focus { border-color: var(--accent-gold); }
+        .lock-box button {
+            width: 100%;
+            padding: 0.8rem;
+            background: var(--ink-primary);
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.8rem;
+            transition: background 0.3s;
+        }
+        .lock-box button:hover { background: var(--accent-gold); }
+        #lock-error {
+            color: #b3261e;
+            font-size: 0.8rem;
+            margin-top: 0.8rem;
+            min-height: 1.2em;
+        }
+        body.locked nav,
+        body.locked header,
+        body.locked main,
+        body.locked footer { display: none; }
+
+        /* --- Navigation --- */
         nav {
             padding: 3rem 2rem;
             text-align: center;
@@ -101,19 +162,16 @@
             column-gap: 3rem;
         }
 
-        /* The Art Piece (Card) */
         .art-piece {
             break-inside: avoid;
             margin-bottom: 3rem;
             position: relative;
             background: transparent;
-            group: 'art';
         }
 
-        /* The Frame/Mat */
         .frame {
             background-color: var(--mat-board);
-            padding: 20px; /* The white "mat" border */
+            padding: 20px;
             box-shadow: var(--shadow-soft);
             transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.6s;
             cursor: pointer;
@@ -145,7 +203,6 @@
             transform: scale(1.03);
         }
 
-        /* Museum Label (Text below) */
         .plaque {
             padding-top: 1.2rem;
             text-align: center;
@@ -153,9 +210,7 @@
             transition: opacity 0.3s;
         }
 
-        .art-piece:hover .plaque {
-            opacity: 1;
-        }
+        .art-piece:hover .plaque { opacity: 1; }
 
         .title {
             font-family: 'Cormorant Garamond', serif;
@@ -205,7 +260,18 @@
         }
     </style>
 </head>
-<body>
+<body class="locked">
+
+    <!-- Password Gate -->
+    <div id="lock-screen">
+        <div class="lock-box">
+            <div class="brand">Family Gallery</div>
+            <p>This gallery is private. Please enter the password to continue.</p>
+            <input type="password" id="pwd-input" placeholder="Password" autocomplete="off" />
+            <button id="pwd-btn">Enter</button>
+            <div id="lock-error"></div>
+        </div>
+    </div>
 
     <nav>
         <div class="brand">Family Image Gallery</div>
@@ -223,14 +289,12 @@
 
     <main class="gallery-container">
 
-        <!-- Darjeeling 2017 -->
+<!-- Darjeeling 2017 -->
 <div class="art-piece">
     <a href="https://saha-family.github.io/Darjelling-2017/" target="_blank">
-        <div class="frame">
-            <div class="img-container">
-                <img src="https://saha-family.github.io/Darjelling-2017/darjelling%20(133).jpg" alt="Darjeeling">
-            </div>
-        </div>
+        <div class="frame"><div class="img-container">
+            <img src="https://saha-family.github.io/Darjelling-2017/darjelling%20(133).jpg" alt="Darjeeling">
+        </div></div>
         <div class="plaque">
             <div class="title">Darjeeling Diaries</div>
             <div class="meta">Darjeeling, 2017</div>
@@ -242,11 +306,9 @@
 <!-- Laitlum -->
 <div class="art-piece">
     <a href="https://saha-family.github.io/Laitlum/" target="_blank">
-        <div class="frame">
-            <div class="img-container">
-                <img src="https://saha-family.github.io/Laitlum/laitlong%20(61).jpg" alt="Laitlum">
-            </div>
-        </div>
+        <div class="frame"><div class="img-container">
+            <img src="https://saha-family.github.io/Laitlum/laitlong%20(61).jpg" alt="Laitlum">
+        </div></div>
         <div class="plaque">
             <div class="title">The Laitlum Canyons</div>
             <div class="meta">Meghalaya, Oct 2023</div>
@@ -258,11 +320,9 @@
 <!-- Cherrapunji -->
 <div class="art-piece">
     <a href="https://saha-family.github.io/Cherrapunji/" target="_blank">
-        <div class="frame">
-            <div class="img-container">
-                <img src="https://saha-family.github.io/Cherrapunji/cherrapunji%20(195).jpg" alt="Cherrapunji">
-            </div>
-        </div>
+        <div class="frame"><div class="img-container">
+            <img src="https://saha-family.github.io/Cherrapunji/cherrapunji%20(195).jpg" alt="Cherrapunji">
+        </div></div>
         <div class="plaque">
             <div class="title">Rains of Cherrapunji</div>
             <div class="meta">Meghalaya, Oct 2023</div>
@@ -274,11 +334,9 @@
 <!-- Dawki -->
 <div class="art-piece">
     <a href="https://saha-family.github.io/dawki/" target="_blank">
-        <div class="frame">
-            <div class="img-container">
-                <img src="https://saha-family.github.io/dawki/dawki%20(45).jpg" alt="Dawki">
-            </div>
-        </div>
+        <div class="frame"><div class="img-container">
+            <img src="https://saha-family.github.io/dawki/dawki%20(45).jpg" alt="Dawki">
+        </div></div>
         <div class="plaque">
             <div class="title">Crystal Waters of Dawki</div>
             <div class="meta">Meghalaya, Oct 2023</div>
@@ -290,11 +348,9 @@
 <!-- Shillong -->
 <div class="art-piece">
     <a href="https://saha-family.github.io/shillong-tour/" target="_blank">
-        <div class="frame">
-            <div class="img-container">
-                <img src="https://saha-family.github.io/shillong-tour/shillong1%20(41).jpg" alt="Shillong">
-            </div>
-        </div>
+        <div class="frame"><div class="img-container">
+            <img src="https://saha-family.github.io/shillong-tour/shillong1%20(41).jpg" alt="Shillong">
+        </div></div>
         <div class="plaque">
             <div class="title">Shillong Stories</div>
             <div class="meta">Meghalaya, Oct 2023</div>
@@ -306,11 +362,9 @@
 <!-- Durga Puja 2023 -->
 <div class="art-piece">
     <a href="https://saha-family.github.io/puja-2023/" target="_blank">
-        <div class="frame">
-            <div class="img-container">
-                <img src="https://saha-family.github.io/puja-2023/puja%20(64).jpg" alt="Durga Puja">
-            </div>
-        </div>
+        <div class="frame"><div class="img-container">
+            <img src="https://saha-family.github.io/puja-2023/puja%20(64).jpg" alt="Durga Puja">
+        </div></div>
         <div class="plaque">
             <div class="title">Durga Puja Moments</div>
             <div class="meta">Kolkata, 2023</div>
@@ -322,11 +376,9 @@
 <!-- Jio Phone Gallery -->
 <div class="art-piece">
     <a href="https://saha-family.github.io/Jio-Phone_gallery/" target="_blank">
-        <div class="frame">
-            <div class="img-container">
-                <img src="https://saha-family.github.io/Jio-Phone_gallery/darjelling%20(82).jpg" alt="Jio Phone Gallery">
-            </div>
-        </div>
+        <div class="frame"><div class="img-container">
+            <img src="https://saha-family.github.io/Jio-Phone_gallery/darjelling%20(82).jpg" alt="Jio Phone Gallery">
+        </div></div>
         <div class="plaque">
             <div class="title">Captured on Jio Phone</div>
             <div class="meta">India, 2019</div>
@@ -338,11 +390,9 @@
 <!-- Stock Images -->
 <div class="art-piece">
     <a href="https://image-gallery-2-0.onrender.com/Gallery" target="_blank">
-        <div class="frame">
-            <div class="img-container">
-                <img src="https://saha-gallery.github.io/Gallery/darjeeling%20(22).jpg" alt="Stock Images">
-            </div>
-        </div>
+        <div class="frame"><div class="img-container">
+            <img src="https://saha-gallery.github.io/Gallery/darjeeling%20(22).jpg" alt="Stock Images">
+        </div></div>
         <div class="plaque">
             <div class="title">Stock Collection</div>
             <div class="meta">Various Locations</div>
@@ -354,11 +404,9 @@
 <!-- DIGHA -->
 <div class="art-piece">
     <a href="https://saha-family.github.io/DIGHA_2022/" target="_blank">
-        <div class="frame">
-            <div class="img-container">
-                <img src="https://saha-family.github.io/DIGHA_2022/pic%20%20(116).jpg" alt="Digha">
-            </div>
-        </div>
+        <div class="frame"><div class="img-container">
+            <img src="https://saha-family.github.io/DIGHA_2022/pic%20%20(116).jpg" alt="Digha">
+        </div></div>
         <div class="plaque">
             <div class="title">Digha Escape</div>
             <div class="meta">West Bengal, Oct 2022</div>
@@ -370,11 +418,9 @@
 <!-- RIYA WEDDING -->
 <div class="art-piece">
     <a href="https://saha-family.github.io/RIYA-WEDDING/" target="_blank">
-        <div class="frame">
-            <div class="img-container">
-                <img src="https://saha-family.github.io/RIYA-WEDDING/pic%20%20(113).jpg" alt="Wedding">
-            </div>
-        </div>
+        <div class="frame"><div class="img-container">
+            <img src="https://saha-family.github.io/RIYA-WEDDING/pic%20%20(113).jpg" alt="Wedding">
+        </div></div>
         <div class="plaque">
             <div class="title">Riya’s Wedding</div>
             <div class="meta">Feb 2022</div>
@@ -386,11 +432,9 @@
 <!-- Puja 2024 -->
 <div class="art-piece">
     <a href="https://saha-family.github.io/Puja2K24/" target="_blank">
-        <div class="frame">
-            <div class="img-container">
-                <img src="https://saha-family.github.io/Puja2K24/pic%20%20%20(2).jpg" alt="Puja 2024">
-            </div>
-        </div>
+        <div class="frame"><div class="img-container">
+            <img src="https://saha-family.github.io/Puja2K24/pic%20%20%20(2).jpg" alt="Puja 2024">
+        </div></div>
         <div class="plaque">
             <div class="title">Puja 2024</div>
             <div class="meta">Kolkata, Oct 2024</div>
@@ -402,11 +446,9 @@
 <!-- Maithon -->
 <div class="art-piece">
     <a href="https://saha-family.github.io/Maithon_2024/" target="_blank">
-        <div class="frame">
-            <div class="img-container">
-                <img src="https://saha-family.github.io/Maithon_2024/pic%20%20(27).jpg" alt="Maithon">
-            </div>
-        </div>
+        <div class="frame"><div class="img-container">
+            <img src="https://saha-family.github.io/Maithon_2024/pic%20%20(27).jpg" alt="Maithon">
+        </div></div>
         <div class="plaque">
             <div class="title">Maithon Retreat</div>
             <div class="meta">Dec 2024</div>
@@ -414,14 +456,13 @@
         </div>
     </a>
 </div>
+
 <!-- Window Garden -->
 <div class="art-piece">
     <a href="https://saha-family.github.io/Garden/" target="_blank">
-        <div class="frame">
-            <div class="img-container">
-                <img src="https://saha-family.github.io/Garden/pic%20%20(14).jpg" alt="Window Garden">
-            </div>
-        </div>
+        <div class="frame"><div class="img-container">
+            <img src="https://saha-family.github.io/Garden/pic%20%20(14).jpg" alt="Window Garden">
+        </div></div>
         <div class="plaque">
             <div class="title">Window Garden</div>
             <div class="meta">Home, Forever</div>
@@ -433,11 +474,9 @@
 <!-- Maha Kumbh -->
 <div class="art-piece">
     <a href="https://saha-family.github.io/Maha_kumbh/" target="_blank">
-        <div class="frame">
-            <div class="img-container">
-                <img src="https://saha-family.github.io/Maha_kumbh/pic%20%20(42).jpg" alt="Maha Kumbh">
-            </div>
-        </div>
+        <div class="frame"><div class="img-container">
+            <img src="https://saha-family.github.io/Maha_kumbh/pic%20%20(42).jpg" alt="Maha Kumbh">
+        </div></div>
         <div class="plaque">
             <div class="title">Maha Kumbh</div>
             <div class="meta">Prayagraj, Feb 2025</div>
@@ -449,11 +488,9 @@
 <!-- Parasnath Trek -->
 <div class="art-piece">
     <a href="https://saha-family.github.io/Parasnath_Trek/" target="_blank">
-        <div class="frame">
-            <div class="img-container">
-                <img src="https://saha-family.github.io/Parasnath_Trek/pic%20%20%20(53).jpg" alt="Parasnath Trek">
-            </div>
-        </div>
+        <div class="frame"><div class="img-container">
+            <img src="https://saha-family.github.io/Parasnath_Trek/pic%20%20%20(53).jpg" alt="Parasnath Trek">
+        </div></div>
         <div class="plaque">
             <div class="title">Parasnath Trek</div>
             <div class="meta">Jharkhand, Sep 2025</div>
@@ -465,11 +502,9 @@
 <!-- Puja 2025 Part 1 -->
 <div class="art-piece">
     <a href="https://saha-family.github.io/Puja2025_part1/" target="_blank">
-        <div class="frame">
-            <div class="img-container">
-                <img src="https://saha-family.github.io/Puja2025_part1/pic%20%20%20(263).jpg" alt="Puja 2025 Part 1">
-            </div>
-        </div>
+        <div class="frame"><div class="img-container">
+            <img src="https://saha-family.github.io/Puja2025_part1/pic%20%20%20(263).jpg" alt="Puja 2025 Part 1">
+        </div></div>
         <div class="plaque">
             <div class="title">Durga Puja 2025</div>
             <div class="meta">Kolkata, Sep 2025</div>
@@ -481,11 +516,9 @@
 <!-- Puja 2025 Part 2 -->
 <div class="art-piece">
     <a href="https://saha-family.github.io/Puja2025_Part2/" target="_blank">
-        <div class="frame">
-            <div class="img-container">
-                <img src="https://saha-family.github.io/Puja2025_Part2/pic%20%20%20(14).jpg" alt="Puja 2025 Part 2">
-            </div>
-        </div>
+        <div class="frame"><div class="img-container">
+            <img src="https://saha-family.github.io/Puja2025_Part2/pic%20%20%20(14).jpg" alt="Puja 2025 Part 2">
+        </div></div>
         <div class="plaque">
             <div class="title">Durga Puja 2025</div>
             <div class="meta">Kolkata, Sep 2025</div>
@@ -497,11 +530,9 @@
 <!-- Nainital Day 1 -->
 <div class="art-piece">
     <a href="https://saha-family.github.io/Ninital-Day-1/" target="_blank">
-        <div class="frame">
-            <div class="img-container">
-                <img src="https://saha-family.github.io/Ninital-Day-1/img%20(43).jpg" alt="Nainital Day 1">
-            </div>
-        </div>
+        <div class="frame"><div class="img-container">
+            <img src="https://saha-family.github.io/Ninital-Day-1/img%20(43).jpg" alt="Nainital Day 1">
+        </div></div>
         <div class="plaque">
             <div class="title">Nainital Escape</div>
             <div class="meta">Uttarakhand, Dec 2025</div>
@@ -513,11 +544,9 @@
 <!-- Nainital Day 2 -->
 <div class="art-piece">
     <a href="https://saha-family.github.io/NAINITAL-DAY-2/" target="_blank">
-        <div class="frame">
-            <div class="img-container">
-                <img src="https://saha-family.github.io/NAINITAL-DAY-2/img%20(160).jpg" alt="Nainital Day 2">
-            </div>
-        </div>
+        <div class="frame"><div class="img-container">
+            <img src="https://saha-family.github.io/NAINITAL-DAY-2/img%20(160).jpg" alt="Nainital Day 2">
+        </div></div>
         <div class="plaque">
             <div class="title">Nainital Escape</div>
             <div class="meta">Uttarakhand, Dec 2025</div>
@@ -529,11 +558,9 @@
 <!-- Nainital Day 3 & 4 -->
 <div class="art-piece">
     <a href="https://saha-family.github.io/Nainital-Day-3-4/" target="_blank">
-        <div class="frame">
-            <div class="img-container">
-                <img src="https://saha-family.github.io/Nainital-Day-3-4/img%20(82).jpg" alt="Nainital Day 3 & 4">
-            </div>
-        </div>
+        <div class="frame"><div class="img-container">
+            <img src="https://saha-family.github.io/Nainital-Day-3-4/img%20(82).jpg" alt="Nainital Day 3 & 4">
+        </div></div>
         <div class="plaque">
             <div class="title">Nainital Escape</div>
             <div class="meta">Uttarakhand, Dec 2025</div>
@@ -545,11 +572,9 @@
 <!-- Delhi Tourism -->
 <div class="art-piece">
     <a href="https://saha-family.github.io/Delhi-Tourism/" target="_blank">
-        <div class="frame">
-            <div class="img-container">
-                <img src="https://saha-family.github.io/Delhi-Tourism/img%20(121).jpg" alt="Delhi Tourism">
-            </div>
-        </div>
+        <div class="frame"><div class="img-container">
+            <img src="https://saha-family.github.io/Delhi-Tourism/img%20(121).jpg" alt="Delhi Tourism">
+        </div></div>
         <div class="plaque">
             <div class="title">Delhi Tourism</div>
             <div class="meta">Delhi, Dec 2025</div>
@@ -558,15 +583,12 @@
     </a>
 </div>
 
-
 <!-- Odisha Tourism -->
-<div class="Nature Beauty">
+<div class="art-piece">
     <a href="https://saha-family.github.io/Odisha2K26/" target="_blank">
-        <div class="frame">
-            <div class="img-container">
-                <img src="https://odisha2k26.onrender.com/img%20(268).jpg">
-            </div>
-        </div>
+        <div class="frame"><div class="img-container">
+            <img src="https://odisha2k26.onrender.com/img%20(268).jpg" alt="Odisha Tourism">
+        </div></div>
         <div class="plaque">
             <div class="title">Odisha Tourism</div>
             <div class="meta">Odisha, Aug 2026</div>
@@ -575,17 +597,12 @@
     </a>
 </div>
 
-
-
-        
 <!-- Friends Trip North Bengal -->
-<div class="Nature Beauty">
+<div class="art-piece">
     <a href="https://saha-family.github.io/North_Bengal/" target="_blank">
-        <div class="frame">
-            <div class="img-container">
-                <img src="https://saha-family.github.io/North_Bengal/img%20(715).jpg">
-            </div>
-        </div>
+        <div class="frame"><div class="img-container">
+            <img src="https://saha-family.github.io/North_Bengal/img%20(715).jpg" alt="North Bengal">
+        </div></div>
         <div class="plaque">
             <div class="title">North Bengal</div>
             <div class="meta">Darjelling, Sept 2026</div>
@@ -593,13 +610,6 @@
         </div>
     </a>
 </div>
-
-
-
-
-
-
-        
 
     </main>
 
@@ -611,6 +621,49 @@
             <i class="ri-brush-line"></i>
         </div>
     </footer>
+
+    <!-- Password Gate Script -->
+    <script>
+    (function () {
+        // SHA-256 hash of the password (not the password itself).
+        // To change the password: generate a new SHA-256 hash and paste it here.
+        const PASSWORD_HASH = "Deep@09";
+
+        const input  = document.getElementById("pwd-input");
+        const btn    = document.getElementById("pwd-btn");
+        const errBox = document.getElementById("lock-error");
+        const lock   = document.getElementById("lock-screen");
+
+        async function sha256(text) {
+            const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
+            return Array.from(new Uint8Array(buf))
+                .map(b => b.toString(16).padStart(2, "0")).join("");
+        }
+
+        function unlock() {
+            document.body.classList.remove("locked");
+            lock.style.display = "none";
+        }
+
+        async function check() {
+            try {
+                const hash = await sha256(input.value);
+                if (hash === PASSWORD_HASH) {
+                    unlock();
+                } else {
+                    errBox.textContent = "Incorrect password. Try again.";
+                    input.value = "";
+                    input.focus();
+                }
+            } catch (e) {
+                errBox.textContent = "Please open this page over https:// or localhost.";
+            }
+        }
+
+        btn.addEventListener("click", check);
+        input.addEventListener("keydown", function (e) { if (e.key === "Enter") check(); });
+        input.focus();
+    })();
+    </script>
 </body>
 </html>
-
