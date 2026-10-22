@@ -625,38 +625,27 @@
     <!-- Password Gate Script -->
     <script>
     (function () {
-        // SHA-256 hash of the password (not the password itself).
-        // To change the password: generate a new SHA-256 hash and paste it here.
-        const PASSWORD_HASH = "Deep@09";
+        // ====== CHANGE YOUR PASSWORD HERE ======
+        const PASSWORD = "Deep@09";
+        // =======================================
 
         const input  = document.getElementById("pwd-input");
         const btn    = document.getElementById("pwd-btn");
         const errBox = document.getElementById("lock-error");
         const lock   = document.getElementById("lock-screen");
 
-        async function sha256(text) {
-            const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
-            return Array.from(new Uint8Array(buf))
-                .map(b => b.toString(16).padStart(2, "0")).join("");
-        }
-
         function unlock() {
             document.body.classList.remove("locked");
             lock.style.display = "none";
         }
 
-        async function check() {
-            try {
-                const hash = await sha256(input.value);
-                if (hash === PASSWORD_HASH) {
-                    unlock();
-                } else {
-                    errBox.textContent = "Incorrect password. Try again.";
-                    input.value = "";
-                    input.focus();
-                }
-            } catch (e) {
-                errBox.textContent = "Please open this page over https:// or localhost.";
+        function check() {
+            if (input.value === PASSWORD) {
+                unlock();
+            } else {
+                errBox.textContent = "Incorrect password. Try again.";
+                input.value = "";
+                input.focus();
             }
         }
 
